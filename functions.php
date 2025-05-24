@@ -444,3 +444,131 @@ function adjust_brightness($hex, $percent) {
     // Convert back to hex
     return sprintf('#%02x%02x%02x', $r, $g, $b);
 }
+
+// Fallback menu function
+function generic_fallback_menu() {
+    echo '<ul class="nav-menu fallback-menu">';
+    echo '<li class="menu-item"><a href="' . esc_url(home_url('/')) . '">Home</a></li>';
+    echo '<li class="menu-item learn-link"><a href="' . esc_url(get_post_type_archive_link('post')) . '">Learn</a></li>';
+    echo '<li class="menu-item"><a href="' . esc_url(home_url('/about')) . '">About</a></li>';
+    echo '<li class="menu-item"><a href="' . esc_url(home_url('/contact')) . '">Contact</a></li>';
+    echo '</ul>';
+}
+
+// Add custom menu locations
+function generic_additional_menus() {
+    register_nav_menus(array(
+        'mobile' => 'Mobile Menu',
+        'footer' => 'Footer Menu',
+    ));
+}
+add_action('after_setup_theme', 'generic_additional_menus');
+
+// Add JavaScript for mobile menu
+function generic_navigation_scripts() {
+    wp_enqueue_script('generic-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '1.0', true);
+}
+add_action('wp_enqueue_scripts', 'generic_navigation_scripts');
+
+// Estimated reading time function
+function generic_estimated_reading_time($content) {
+    $word_count = str_word_count(strip_tags($content));
+    $reading_time = ceil($word_count / 200); // Average reading speed
+    return max(1, $reading_time); // Minimum 1 minute
+}
+
+// Get category icon function
+function generic_get_category_icon($category_slug) {
+    $icons = array(
+        'plants' => '🌱',
+        'gardening' => '🌿',
+        'care' => '💚',
+        'tips' => '💡',
+        'guides' => '📖',
+        'tools' => '🛠️',
+        'indoor' => '🏠',
+        'outdoor' => '🌳',
+        'flowers' => '🌸',
+        'vegetables' => '🥕',
+        'herbs' => '🌿',
+        'watering' => '💧',
+        'fertilizer' => '🧪',
+        'pests' => '🐛',
+        'diseases' => '🦠',
+        'seasonal' => '🗓️',
+        'beginner' => '🌱',
+        'advanced' => '🏆',
+        'default' => '📚'
+    );
+    
+    return isset($icons[$category_slug]) ? $icons[$category_slug] : $icons['default'];
+}
+
+// Add featured post meta box
+function generic_add_featured_post_meta_box() {
+    add_meta_box(
+        'featured-post',
+        'Featured Post',
+        'generic_featured_post_meta_box_callback',
+        'post',
+        'side',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'generic_add_featured_post_meta_box');
+
+// Featured post meta box callback
+function generic_featured_post_meta_box_callback($post) {
+    wp_nonce_field('generic_featured_post_nonce', 'generic_featured_post_nonce');
+    $featured = get_post_meta($post->ID, '_featured_post', true);
+    ?>
+    <label for="featured_post">
+        <input type="checkbox" id="featured_post" name="featured_post" value="1" <?php checked($featured, '1'); ?> />
+        Mark as featured post
+    </label>
+    <p class="description">Featured posts appear in the Learn page highlights section.</p>
+    <?php
+}
+
+// Save featured post meta
+function generic_save_featured_post_meta($post_id) {
+    if (!isset($_POST['generic_featured_post_nonce']) || !wp_verify_nonce($_POST['generic_featured_post_nonce'], 'generic_featured_post_nonce')) {
+        return;
+    }
+    
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    if (isset($_POST['featured_post'])) {
+        update_post_meta($post_id, '_featured_post', '1');
+    } else {
+        delete_post_meta($post_id, '_featured_post');
+    }
+}
+add_action('save_post', 'generic_save_featured_post_meta');
+
+// Auto-create Learn page if it doesn't exist
+function generic_create_learn_page() {
+    $learn_page = get_page_by_path('learn');
+    
+    if (!$learn_page) {
+        $learn_page_id = wp_insert_post(array(
+            'post_title' => 'Learn',
+            'post_content' => '<p>Welcome to our learning center! Discover tips, guides, and expert advice to help you grow beautiful, healthy plants.</p>',
+            'post_status' => 'publish',
+            'post_type' => 'page',
+            'post_name' => 'learn',
+            'page_template' => 'page-learn.php'
+        ));
+        
+        if ($learn_page_id && !is_wp_error($learn_page_id)) {
+            update_post_meta($learn_page_id, '_wp_page_template', 'page-learn.php');
+        }
+    }
+}
+add_action('after_switch_theme', 'generic_create_learn_page');
