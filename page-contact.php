@@ -6,7 +6,7 @@ get_header(); ?>
 
 <div class="contact-container">
     <div class="contact-hero">
-        <h1>Get in Touch</h1>
+        <h1>Get in Touch brah</h1>
         <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
     </div>
 
