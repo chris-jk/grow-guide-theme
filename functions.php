@@ -32,13 +32,25 @@ add_action('after_setup_theme', 'generic_theme_setup');
 
 // Enqueue styles and scripts
 function generic_theme_scripts() {
-    wp_enqueue_style('generic-style', get_stylesheet_uri());
+    wp_enqueue_style('generic-style', get_stylesheet_uri(), array(), '1.0');
     
-    // Only enqueue JS on front page
-    if (is_front_page()) {
+    // Enqueue Google Fonts
+    wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', array(), null);
+    
+    // Check if unified scripts file exists, otherwise use app-links.js
+    $unified_scripts_path = get_template_directory() . '/assets/js/unified-scripts.js';
+    $app_links_path = get_template_directory() . '/app-links.js';
+    
+    if (file_exists($unified_scripts_path)) {
+        // Use unified scripts if available
+        wp_enqueue_script('generic-unified-scripts', get_template_directory_uri() . '/assets/js/unified-scripts.js', array(), '1.0', true);
+    } elseif (file_exists($app_links_path) && is_front_page()) {
+        // Fallback to app-links.js for front page only
         wp_enqueue_script('generic-app-links', get_template_directory_uri() . '/app-links.js', array(), '1.0', true);
-        
-        // Get URLs and settings from customizer
+    }
+    
+    // Get URLs and settings from customizer for front page
+    if (is_front_page()) {
         $app_name = get_theme_mod('app_name', 'Grow Guide');
         $app_store_url = get_theme_mod('app_store_url', 'https://apps.apple.com/us/app/grow-guide/id6637720578');
         $google_play_url = get_theme_mod('google_play_url', 'https://play.google.com/store/apps/details?id=app.growguide');
@@ -46,7 +58,8 @@ function generic_theme_scripts() {
         $apple_app_id = get_theme_mod('apple_app_id', '');
         
         // Localize script with app store URLs and settings
-        wp_localize_script('generic-app-links', 'appUrls', array(
+        $script_handle = file_exists($unified_scripts_path) ? 'generic-unified-scripts' : 'generic-app-links';
+        wp_localize_script($script_handle, 'appUrls', array(
             'appName' => $app_name,
             'appStore' => $app_store_url,
             'googlePlay' => $google_play_url,
@@ -54,6 +67,11 @@ function generic_theme_scripts() {
             'appleAppId' => $apple_app_id,
             'fallback' => home_url()
         ));
+    }
+    
+    // Enqueue comment reply script on single posts/pages
+    if (is_singular() && comments_open() && get_option('thread_comments')) {
+        wp_enqueue_script('comment-reply');
     }
 }
 add_action('wp_enqueue_scripts', 'generic_theme_scripts');
@@ -251,4 +269,179 @@ function get_homepage_features() {
     
     return $features;
 }
-?>
+
+// Add widget areas support
+function generic_widgets_init() {
+    register_sidebar(array(
+        'name'          => 'Sidebar',
+        'id'            => 'sidebar-1',
+        'description'   => 'Add widgets here to appear in your sidebar.',
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ));
+    
+    register_sidebar(array(
+        'name'          => 'Footer',
+        'id'            => 'footer-1',
+        'description'   => 'Add widgets here to appear in your footer.',
+        'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="footer-widget-title">',
+        'after_title'   => '</h4>',
+    ));
+}
+add_action('widgets_init', 'generic_widgets_init');
+
+// Custom comment callback function
+function generic_comment_callback($comment, $args, $depth) {
+    $GLOBALS['comment'] = $comment;
+    extract($args, EXTR_SKIP);
+    
+    if ('div' == $args['style']) {
+        $tag = 'div';
+        $add_below = 'comment';
+    } else {
+        $tag = 'li';
+        $add_below = 'div-comment';
+    }
+    ?>
+    <<?php echo $tag ?> <?php comment_class(empty($args['has_children']) ? '' : 'parent') ?> id="comment-<?php comment_ID() ?>">
+    <?php if ('div' != $args['style']) : ?>
+        <div id="div-comment-<?php comment_ID() ?>" class="comment-body">
+    <?php endif; ?>
+    
+    <div class="comment-author vcard">
+        <?php if ($args['avatar_size'] != 0) echo get_avatar($comment, $args['avatar_size']); ?>
+        <div class="comment-meta">
+            <?php printf('<cite class="fn">%s</cite>', get_comment_author_link()); ?>
+            <div class="comment-metadata">
+                <a href="<?php echo htmlspecialchars(get_comment_link($comment->comment_ID)); ?>">
+                    <time datetime="<?php comment_time('c'); ?>">
+                        <?php printf('%1$s at %2$s', get_comment_date(), get_comment_time()); ?>
+                    </time>
+                </a>
+                <?php edit_comment_link('(Edit)', '&nbsp;&nbsp;', ''); ?>
+            </div>
+        </div>
+    </div>
+    
+    <?php if ($comment->comment_approved == '0') : ?>
+        <em class="comment-awaiting-moderation">Your comment is awaiting moderation.</em>
+        <br />
+    <?php endif; ?>
+    
+    <div class="comment-content">
+        <?php comment_text(); ?>
+    </div>
+    
+    <div class="reply">
+        <?php comment_reply_link(array_merge($args, array(
+            'add_below' => $add_below,
+            'depth' => $depth,
+            'max_depth' => $args['max_depth']
+        ))); ?>
+    </div>
+    
+    <?php if ('div' != $args['style']) : ?>
+        </div>
+    <?php endif; ?>
+    <?php
+}
+
+// Improve excerpt handling
+function generic_custom_excerpt_more($more) {
+    if (is_admin()) {
+        return $more;
+    }
+    return '&hellip; <a href="' . get_permalink() . '" class="read-more-link">Read More</a>';
+}
+add_filter('excerpt_more', 'generic_custom_excerpt_more');
+
+// Add custom body classes
+function generic_custom_body_classes($classes) {
+    // Add a class for the current page template
+    if (is_page_template()) {
+        $template = str_replace('.php', '', get_page_template_slug());
+        $classes[] = 'page-template-' . $template;
+    }
+    
+    // Add class for posts with thumbnails
+    if (is_singular() && has_post_thumbnail()) {
+        $classes[] = 'has-post-thumbnail';
+    }
+    
+    // Add class for dark mode (always active for this theme)
+    $classes[] = 'dark-mode';
+    
+    return $classes;
+}
+add_filter('body_class', 'generic_custom_body_classes');
+
+// Optimize images
+function generic_custom_image_sizes() {
+    add_image_size('archive-thumbnail', 400, 200, true);
+    add_image_size('hero-image', 1200, 600, true);
+}
+add_action('after_setup_theme', 'generic_custom_image_sizes');
+
+// Add theme color customization options
+function generic_color_customize_register($wp_customize) {
+    // Add color section
+    $wp_customize->add_section('theme_colors', array(
+        'title' => 'Theme Colors',
+        'priority' => 32,
+        'description' => 'Customize the theme colors'
+    ));
+    
+    // Accent color
+    $wp_customize->add_setting('accent_color', array(
+        'default' => '#10b981',
+        'sanitize_callback' => 'sanitize_hex_color'
+    ));
+    
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'accent_color', array(
+        'label' => 'Accent Color',
+        'section' => 'theme_colors',
+        'description' => 'The primary accent color used throughout the theme'
+    )));
+}
+add_action('customize_register', 'generic_color_customize_register');
+
+// Output custom colors
+function generic_custom_colors() {
+    $accent_color = get_theme_mod('accent_color', '#10b981');
+    
+    if ($accent_color !== '#10b981') {
+        ?>
+        <style type="text/css">
+            :root {
+                --accent-primary: <?php echo esc_attr($accent_color); ?>;
+                --accent-secondary: <?php echo esc_attr(adjust_brightness($accent_color, -20)); ?>;
+                --accent-hover: <?php echo esc_attr(adjust_brightness($accent_color, 20)); ?>;
+            }
+        </style>
+        <?php
+    }
+}
+add_action('wp_head', 'generic_custom_colors');
+
+// Helper function to adjust color brightness
+function adjust_brightness($hex, $percent) {
+    // Remove # if present
+    $hex = ltrim($hex, '#');
+    
+    // Convert to RGB
+    $r = hexdec(substr($hex, 0, 2));
+    $g = hexdec(substr($hex, 2, 2));
+    $b = hexdec(substr($hex, 4, 2));
+    
+    // Adjust brightness
+    $r = min(255, max(0, $r + ($r * $percent / 100)));
+    $g = min(255, max(0, $g + ($g * $percent / 100)));
+    $b = min(255, max(0, $b + ($b * $percent / 100)));
+    
+    // Convert back to hex
+    return sprintf('#%02x%02x%02x', $r, $g, $b);
+}
