@@ -19,6 +19,14 @@
             </div>
 
             <footer class="post-footer">
+                <?php if (function_exists('ggd_app_link')): ?>
+                    <div class="app-link-section">
+                        <p><strong>💡 Get the best reading experience:</strong></p>
+                        <?php echo ggd_app_link('post/' . get_the_ID(), 'Open in Grow Guide App', 'btn btn-app'); ?>
+                        <p class="app-link-description">Read this post in our mobile app with enhanced features, offline access, and personalized recommendations.</p>
+                    </div>
+                <?php endif; ?>
+
                 <?php if (has_tag()): ?>
                     <div class="post-tags">
                         <strong>Tags:</strong>

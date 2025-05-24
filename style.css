@@ -532,42 +532,108 @@ feature-icon {
     backdrop-filter: blur(10px);
 }
 
-/* Utility Classes */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
+/* App Link Integration Styles */
+.app-link-section {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 32px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
 
-.mt-1 { margin-top: 1rem; }
-.mt-2 { margin-top: 2rem; }
-.mt-3 { margin-top: 3rem; }
-.mb-1 { margin-bottom: 1rem; }
-.mb-2 { margin-bottom: 2rem; }
-.mb-3 { margin-bottom: 3rem; }
+.app-link-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4CAF50, #45a049, #4CAF50);
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite;
+}
 
-.p-1 { padding: 1rem; }
-.p-2 { padding: 2rem; }
-.p-3 { padding: 3rem; }
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
 
-.bg-primary { background-color: var(--primary-color); }
-.bg-secondary { background-color: var(--secondary-color); }
-.text-primary { color: var(--primary-color); }
-.text-secondary { color: var(--secondary-color); }
+.app-link-section p {
+    margin: 0 0 16px;
+    font-size: 16px;
+    color: #495057;
+}
 
-.rounded { border-radius: var(--border-radius); }
-.shadow { box-shadow: var(--shadow); }
+.app-link-section .btn-app {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white !important;
+    padding: 14px 28px;
+    border-radius: 25px;
+    text-decoration: none !important;
+    font-weight: 600;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
 
-.flex { display: flex; }
-.flex-column { flex-direction: column; }
-.justify-center { justify-content: center; }
-.align-center { align-items: center; }
-.gap-1 { gap: 1rem; }
-.gap-2 { gap: 2rem; }
+.btn-app::before {
+    content: '📱';
+    font-size: 18px;
+}
 
-.w-full { width: 100%; }
-.h-auto { height: auto; }
+.btn-app:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+}
 
-.hidden { display: none; }
-.visible { display: block; }
+.btn-app:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.app-link-description {
+    font-size: 14px !important;
+    color: #6c757d !important;
+    margin-top: 12px !important;
+    font-style: italic;
+}
+
+/* Dark theme support for app link section */
+@media (prefers-color-scheme: dark) {
+    .app-link-section {
+        background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+        border-color: #404040;
+    }
+    
+    .app-link-section p {
+        color: #e0e0e0;
+    }
+    
+    .app-link-description {
+        color: #b0b0b0 !important;
+    }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .app-link-section {
+        padding: 20px 16px;
+        margin: 24px 0;
+    }
+    
+    .btn-app {
+        padding: 12px 24px;
+        font-size: 15px;
+    }
+}
 
 @media (max-width: 768px) {
     .md-hidden { display: none; }
