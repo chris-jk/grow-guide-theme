@@ -2,7 +2,7 @@
 Theme Name: Grow Guide Theme
 Description: A WordPress theme for the Grow Guide cultivation app website
 Version: 1.0
-Author: Chris @ Grow Guide Team
+Author: Grow Guide Team
 */
 
 /* CSS Variables */
@@ -287,7 +287,7 @@ body {
 
 .value-icon,
 .card-icon,
-feature-icon {
+.feature-icon {
     font-size: 3rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
