@@ -12,7 +12,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   // Get the theme directory URL from WordPress
   const themeUrl = document.body.dataset.themeUrl || window.location.origin;
-
+  
   // Create script elements for each JS file
   const mainScript = document.createElement('script');
   mainScript.src = themeUrl + '/assets/js/main.js';

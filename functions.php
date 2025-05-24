@@ -38,13 +38,13 @@ function grow_guide_scripts() {
     
     // Enqueue JavaScript files
     wp_enqueue_script('qr-code', 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js', array(), '1.0.0', true);
-    wp_enqueue_script('grow-guide-direct-deep-link', get_template_directory_uri() . '/assets/js/direct-deep-link.js', array(), '1.0.0', true);
-    wp_enqueue_script('grow-guide-unified', get_template_directory_uri() . '/assets/js/unified-scripts.js', array('jquery'), '1.0.0', true);
+    wp_enqueue_script('grow-guide-main', get_template_directory_uri() . '/assets/js/theme-main.js', array('jquery', 'qr-code'), '2.0.0', true);
     
     // Localize script for AJAX
-    wp_localize_script('grow-guide-unified', 'grow_guide_ajax', array(
+    wp_localize_script('grow-guide-main', 'grow_guide_ajax', array(
         'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('grow_guide_nonce')
+        'nonce' => wp_create_nonce('grow_guide_nonce'),
+        'theme_url' => get_template_directory_uri()
     ));
 }
 add_action('wp_enqueue_scripts', 'grow_guide_scripts');
