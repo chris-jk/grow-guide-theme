@@ -32,7 +32,11 @@ get_header(); ?>
                     <h2>Quick Links</h2>
                     <ul class="quick-links">
                         <li><a href="<?php echo esc_url(home_url('/')); ?>" class="home-link">🏠 Go Home</a></li>
-                        <li><a href="<?php echo esc_url(home_url('/blog')); ?>" class="blog-link">📝 Visit Blog</a></li>
+                        <?php
+                        $blog_page_id = get_option('page_for_posts');
+                        $blog_url = $blog_page_id ? get_permalink($blog_page_id) : home_url('/');
+                        ?>
+                        <li><a href="<?php echo esc_url($blog_url); ?>" class="blog-link">📝 Visit Blog</a></li>
                         <li><a href="mailto:<?php echo get_option('admin_email'); ?>" class="contact-link">📧 Contact Us</a></li>
                     </ul>
                 </div>

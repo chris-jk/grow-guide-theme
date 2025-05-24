@@ -14,7 +14,7 @@ Author: Your Name
     --bg-card: #161616;
     --text-primary: #ffffff;
     --text-secondary: #a0a0a0;
-    --text-muted: #666666;
+    --text-muted: #808080; /* Better contrast ratio ~5.3:1 */
     --accent-primary: #10b981;
     --accent-secondary: #059669;
     --accent-hover: #34d399;
@@ -74,15 +74,19 @@ body {
 
 /* Header */
 .site-header {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+     background: var(--glass-bg);
+    /* Fallback for browsers without backdrop-filter support */
+    @supports not (backdrop-filter: blur(20px)) {
+        background: rgba(22, 22, 22, 0.95);
+    }
+     backdrop-filter: blur(20px);
+     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--glass-border);
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
 }
 
 .header-content {

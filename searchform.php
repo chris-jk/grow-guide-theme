@@ -6,7 +6,7 @@
 
 <form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
     <div class="search-form-container">
-        <label class="search-label" for="search-field-<?php echo uniqid(); ?>">
+        <label class="search-label" for="search-field-<?php echo $search_id; ?>">
             <span class="screen-reader-text">Search for:</span>
         </label>
         <input 
@@ -14,7 +14,7 @@
             id="search-field-<?php echo uniqid(); ?>" 
             class="search-field" 
             placeholder="Search..." 
-            value="<?php echo get_search_query(); ?>" 
+            value="<?php echo esc_attr(get_search_query()); ?>"
             name="s" 
             required
         />

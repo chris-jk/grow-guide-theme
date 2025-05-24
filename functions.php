@@ -42,10 +42,9 @@ function generic_theme_scripts() {
     $app_links_path = get_template_directory() . '/app-links.js';
     
     if (file_exists($unified_scripts_path)) {
-        // Use unified scripts if available
         wp_enqueue_script('generic-unified-scripts', get_template_directory_uri() . '/assets/js/unified-scripts.js', array(), '1.0', true);
-    } elseif (file_exists($app_links_path) && is_front_page()) {
-        // Fallback to app-links.js for front page only
+    } elseif (file_exists($app_links_path)) {
+        // Load app-links.js as fallback for all pages
         wp_enqueue_script('generic-app-links', get_template_directory_uri() . '/app-links.js', array(), '1.0', true);
     }
     
@@ -87,11 +86,7 @@ function generic_custom_excerpt_length($length) {
 }
 add_filter('excerpt_length', 'generic_custom_excerpt_length');
 
-// Custom excerpt more
-function generic_excerpt_more($more) {
-    return '...';
-}
-add_filter('excerpt_more', 'generic_excerpt_more');
+
 
 // Add Customizer settings for homepage features
 function generic_customize_register($wp_customize) {
@@ -296,13 +291,12 @@ add_action('widgets_init', 'generic_widgets_init');
 
 // Custom comment callback function
 function generic_comment_callback($comment, $args, $depth) {
-    $GLOBALS['comment'] = $comment;
-    extract($args, EXTR_SKIP);
-    
+     $GLOBALS['comment'] = $comment;
+     
     if ('div' == $args['style']) {
-        $tag = 'div';
+         $tag = 'div';
         $add_below = 'comment';
-    } else {
+     } else {
         $tag = 'li';
         $add_below = 'div-comment';
     }
@@ -429,8 +423,13 @@ add_action('wp_head', 'generic_custom_colors');
 
 // Helper function to adjust color brightness
 function adjust_brightness($hex, $percent) {
-    // Remove # if present
-    $hex = ltrim($hex, '#');
+    // Validate hex color
+    if (!preg_match('/^#?[a-fA-F0-9]{6}$/', $hex)) {
+        return $hex; // Return original if invalid
+    }
+    
+     // Remove # if present
+     $hex = ltrim($hex, '#');
     
     // Convert to RGB
     $r = hexdec(substr($hex, 0, 2));

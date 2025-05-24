@@ -12,7 +12,7 @@ get_header(); ?>
                 <?php
                 printf(
                     esc_html__('Search Results for: %s', 'textdomain'),
-                    '<span class="search-term">' . get_search_query() . '</span>'
+                    '<span class="search-term">' . esc_html(get_search_query()) . '</span>'
                 );
                 ?>
             </h1>
@@ -40,7 +40,7 @@ get_header(); ?>
                             </h2>
                             
                             <div class="entry-meta">
-                                <span class="post-type"><?php echo get_post_type_object(get_post_type())->labels->singular_name; ?></span>
+                                <span class="post-type"><?php echo esc_html(get_post_type_object(get_post_type())->labels->singular_name); ?></span>
                                 <span class="post-date">
                                     <time datetime="<?php echo get_the_date('c'); ?>">
                                         <?php echo get_the_date(); ?>
