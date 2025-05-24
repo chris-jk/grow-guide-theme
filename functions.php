@@ -27,11 +27,8 @@ add_action('after_setup_theme', 'grow_guide_setup');
 
 // Enqueue styles and scripts
 function grow_guide_scripts() {
-    // Enqueue main stylesheet
-    wp_enqueue_style('grow-guide-style', get_stylesheet_uri(), array(), '1.0.0');
-    
-    // Enqueue unified styles
-    wp_enqueue_style('grow-guide-unified', get_template_directory_uri() . '/assets/css/unified-styles.css', array(), '1.0.0');
+    // Enqueue main stylesheet (now contains all styles)
+    wp_enqueue_style('grow-guide-style', get_stylesheet_uri(), array(), '2.0.0');
     
     // Enqueue Google Fonts
     wp_enqueue_style('grow-guide-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap', array(), null);
