@@ -192,6 +192,37 @@
         gap: 1rem;
     }
 }
+
+/* Dark theme styles */
+@media (prefers-color-scheme: dark) {
+    .single-post {
+        background: rgba(30, 30, 30, 0.9);
+        color: #e0e0e0;
+    }
+    
+    .post-content {
+        color: #e0e0e0;
+    }
+    
+    .post-content h2,
+    .post-content h3,
+    .post-content h4 {
+        color: var(--primary-light, #81c784);
+    }
+    
+    .post-footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .comments-section {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .post-tags {
+        background: rgba(76, 175, 80, 0.2);
+        color: #e0e0e0;
+    }
+}
 </style>
 
 <?php get_footer(); ?>
