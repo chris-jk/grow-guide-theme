@@ -178,7 +178,7 @@ function grow_guide_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_setting('hero_title', array(
-        'default' => 'Master Your Cultivation Journey',
+        'default' => 'Master Your Cultivation Journey!!!',
         'sanitize_callback' => 'sanitize_text_field',
     ));
     

@@ -16,7 +16,7 @@
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
-        <h1 class="hero-title"><?php echo get_theme_mod('hero_title', 'Master Your Cultivation Journey'); ?></h1>
+        <h1 class="hero-title"><?php echo get_theme_mod('hero_title', 'Master Your Cultivation Journey!!!'); ?></h1>
         <p class="hero-subtitle">
             <?php echo get_theme_mod('hero_subtitle', 'Track your grows, connect with expert growers, and get AI-powered recommendations for successful cultivation.'); ?>
         </p>
