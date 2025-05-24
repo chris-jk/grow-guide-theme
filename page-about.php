@@ -87,98 +87,10 @@ get_header(); ?>
                     thousands of successful growers who trust our platform for their cultivation journey.
                 </p>
                 
-                <div class="store-badges">
-                    <a href="<?php echo get_theme_mod('app_store_url', 'https://apps.apple.com/us/app/grow-guide/id6637720578'); ?>" target="_blank" rel="noopener">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/appstore.svg" alt="Download on App Store" class="store-badge" />
-                    </a>
-                    <a href="<?php echo get_theme_mod('google_play_url', 'https://play.google.com/store/apps/details?id=app.growguide'); ?>" target="_blank" rel="noopener">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/playstore.png" alt="Get it on Google Play" class="store-badge" />
-                    </a>
-                </div>
+                <?php get_template_part('template-parts/store-badges'); ?>
             </div>
         </div>
     <?php endif; ?>
 </div>
-
-<style>
-.about-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    padding-top: 100px;
-}
-
-.about-hero {
-    text-align: center;
-    padding: 6rem 2rem;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-        url("https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?ixlib=rb-4.0.3") center/cover;
-    color: white;
-    border-radius: 20px;
-    margin: 0 0 3rem 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.about-section {
-    margin: 3rem 0;
-    background: var(--card-bg);
-    padding: 2rem;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-}
-
-.about-section h2 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.values-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
-}
-
-.value-card {
-    background: var(--card-bg);
-    padding: 2rem;
-    border-radius: 15px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    transition: var(--transition);
-}
-
-.value-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
-}
-
-.value-icon {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.value-card h3 {
-    margin-bottom: 1rem;
-    color: var(--primary-color);
-}
-
-.store-badges {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 2rem;
-}
-
-.store-badge {
-    height: 60px;
-    transition: var(--transition);
-}
-
-.store-badge:hover {
-    transform: scale(1.05);
-}
-</style>
 
 <?php get_footer(); ?>

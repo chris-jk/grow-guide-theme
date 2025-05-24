@@ -4,21 +4,21 @@ Template Name: Contact Page
 */
 get_header(); ?>
 
-<div class="contact-container">
-    <div class="contact-hero">
-        <h1>Get in Touch brah</h1>
+<div class="page-container">
+    <div class="page-hero">
+        <h1>Get in Touch</h1>
         <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
     </div>
 
     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-        <div class="contact-content">
+        <div class="content-section">
             <?php the_content(); ?>
         </div>
     <?php endwhile; endif; ?>
 
     <!-- Default contact content -->
-    <div class="contact-grid">
-        <div class="contact-info">
+    <div class="cards-grid">
+        <div class="card">
             <h2>Contact Information</h2>
             
             <div class="contact-item">
@@ -112,149 +112,5 @@ get_header(); ?>
     </div>
 </div>
 
-<style>
-.contact-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    padding-top: 100px;
-}
-
-.contact-hero {
-    text-align: center;
-    padding: 4rem 2rem;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-        url("https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d") center/cover;
-    color: white;
-    border-radius: 20px;
-    margin: 0 0 3rem 0;
-}
-
-.contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.contact-info,
-.contact-form {
-    background: var(--card-bg);
-    padding: 2rem;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-}
-
-.contact-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.contact-icon {
-    background: var(--primary-color);
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 1rem;
-    font-size: 1.2rem;
-}
-
-.contact-details h3 {
-    margin-bottom: 0.5rem;
-    color: var(--primary-color);
-}
-
-.social-icons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.social-icons a {
-    background: var(--primary-color);
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition);
-}
-
-.social-icons a:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--primary-color);
-    font-weight: 500;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-color);
-    font-family: inherit;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-}
-
-.download-section {
-    text-align: center;
-    margin-top: 3rem;
-    padding: 2rem;
-    background: var(--card-bg);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-}
-
-.store-badges {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 2rem;
-}
-
-.store-badge {
-    height: 60px;
-    transition: var(--transition);
-}
-
-.store-badge:hover {
-    transform: scale(1.05);
-}
-
-@media (max-width: 768px) {
-    .contact-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .store-badges {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-</style>
 
 <?php get_footer(); ?>

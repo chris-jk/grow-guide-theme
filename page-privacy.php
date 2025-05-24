@@ -4,13 +4,13 @@ Template Name: Privacy Policy
 */
 get_header(); ?>
 
-<div class="legal-container">
-    <div class="legal-hero">
+<div class="page-container">
+    <div class="page-hero">
         <h1>Privacy Policy</h1>
         <p>Your privacy is important to us. Learn how we collect, use, and protect your information.</p>
     </div>
 
-    <div class="legal-content">
+    <div class="content-section">
         <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
             <?php the_content(); ?>
         <?php endwhile; endif; ?>
@@ -109,71 +109,5 @@ get_header(); ?>
     </div>
 </div>
 
-<style>
-.legal-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-    padding-top: 100px;
-}
-
-.legal-hero {
-    text-align: center;
-    padding: 3rem 2rem;
-    background: var(--card-bg);
-    border-radius: 20px;
-    margin-bottom: 3rem;
-    backdrop-filter: blur(10px);
-}
-
-.legal-hero h1 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.legal-content {
-    background: var(--card-bg);
-    padding: 2rem;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-}
-
-.legal-section {
-    margin-bottom: 3rem;
-}
-
-.legal-section h2 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 0.5rem;
-}
-
-.legal-section h3 {
-    color: var(--primary-light);
-    margin: 1.5rem 0 1rem 0;
-}
-
-.legal-section ul {
-    margin-left: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.legal-section li {
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
-}
-
-.contact-info {
-    background: rgba(76, 175, 80, 0.1);
-    padding: 1rem;
-    border-radius: 8px;
-    border-left: 4px solid var(--primary-color);
-}
-
-.contact-info p {
-    margin-bottom: 0.5rem;
-}
-</style>
 
 <?php get_footer(); ?>
