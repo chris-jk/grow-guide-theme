@@ -19,24 +19,16 @@
                 </h1>
             </div>
             
-            <nav class="main-navigation">
-                <button class="mobile-menu-toggle" aria-controls="primary-menu" aria-expanded="false">
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                    <span class="screen-reader-text">Menu</span>
-                </button>
-                
-                <div class="nav-menu-wrapper" id="primary-menu">
-                    <?php
-                    wp_nav_menu(array(
-                        'theme_location' => 'primary',
-                        'container' => false,
-                        'menu_class' => 'nav-menu',
-                        'fallback_cb' => 'generic_fallback_menu',
-                    ));
-                    ?>
-                </div>
+            <nav class="main-navigation" role="navigation">
+                <?php
+                wp_nav_menu(array(
+                    'theme_location' => 'primary',
+                    'container' => 'div',
+                    'container_class' => 'menu-container',
+                    'menu_class' => 'primary-menu',
+                    'fallback_cb' => 'wp_page_menu',
+                ));
+                ?>
             </nav>
         </div>
     </div>

@@ -445,31 +445,6 @@ function adjust_brightness($hex, $percent) {
     return sprintf('#%02x%02x%02x', $r, $g, $b);
 }
 
-// Fallback menu function
-function generic_fallback_menu() {
-    echo '<ul class="nav-menu fallback-menu">';
-    echo '<li class="menu-item"><a href="' . esc_url(home_url('/')) . '">Home</a></li>';
-    echo '<li class="menu-item learn-link"><a href="' . esc_url(get_post_type_archive_link('post')) . '">Learn</a></li>';
-    echo '<li class="menu-item"><a href="' . esc_url(home_url('/about')) . '">About</a></li>';
-    echo '<li class="menu-item"><a href="' . esc_url(home_url('/contact')) . '">Contact</a></li>';
-    echo '</ul>';
-}
-
-// Add custom menu locations
-function generic_additional_menus() {
-    register_nav_menus(array(
-        'mobile' => 'Mobile Menu',
-        'footer' => 'Footer Menu',
-    ));
-}
-add_action('after_setup_theme', 'generic_additional_menus');
-
-// Add JavaScript for mobile menu
-function generic_navigation_scripts() {
-    wp_enqueue_script('generic-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '1.0', true);
-}
-add_action('wp_enqueue_scripts', 'generic_navigation_scripts');
-
 // Estimated reading time function
 function generic_estimated_reading_time($content) {
     $word_count = str_word_count(strip_tags($content));
