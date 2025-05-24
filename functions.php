@@ -40,8 +40,8 @@ function generic_theme_scripts() {
         
         // Get URLs and settings from customizer
         $app_name = get_theme_mod('app_name', 'Grow Guide');
-        $app_store_url = get_theme_mod('app_store_url', 'https://apps.apple.com/app/grow-guide');
-        $google_play_url = get_theme_mod('google_play_url', 'https://play.google.com/store/apps/details?id=com.growguide');
+        $app_store_url = get_theme_mod('app_store_url', 'https://apps.apple.com/us/app/grow-guide/id6637720578');
+        $google_play_url = get_theme_mod('google_play_url', 'https://play.google.com/store/apps/details?id=app.growguide');
         $google_play_id = get_theme_mod('google_play_id', 'com.growguide');
         $apple_app_id = get_theme_mod('apple_app_id', '');
         
